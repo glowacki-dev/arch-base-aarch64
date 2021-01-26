@@ -132,19 +132,19 @@ chsh -s /bin/bash nobody
 # delme once fixed!!
 # force downgrade of coreutils - fixes permission denied issue when building on docker hub
 # https://github.com/archlinux/archlinux-docker/issues/32
-curl --connect-timeout 5 --max-time 600 --retry 5 --retry-delay 0 --retry-max-time 60 -o /tmp/coreutils.tar.xz -L "https://github.com/binhex/arch-packages/raw/master/compiled/aarch64/coreutils.tar.xz"
-pacman -U /tmp/coreutils.tar.xz --noconfirm
+#curl --connect-timeout 5 --max-time 600 --retry 5 --retry-delay 0 --retry-max-time 60 -o /tmp/coreutils.tar.xz -L "https://github.com/binhex/arch-packages/raw/master/compiled/aarch64/coreutils.tar.xz"
+#pacman -U /tmp/coreutils.tar.xz --noconfirm
 
 # force re-install of ncurses 6.x with 5.x backwards compatibility (can be removed once all apps have switched over to ncurses 6.x)
-curl --connect-timeout 5 --max-time 600 --retry 5 --retry-delay 0 --retry-max-time 60 -o /tmp/ncurses5-compat.tar.xz -L "https://github.com/binhex/arch-packages/raw/master/compiled/aarch64/ncurses5-compat-libs.tar.xz"
-pacman -U /tmp/ncurses5-compat.tar.xz --noconfirm
+#curl --connect-timeout 5 --max-time 600 --retry 5 --retry-delay 0 --retry-max-time 60 -o /tmp/ncurses5-compat.tar.xz -L "https://github.com/binhex/arch-packages/raw/master/compiled/aarch64/ncurses5-compat-libs.tar.xz"
+#pacman -U /tmp/ncurses5-compat.tar.xz --noconfirm
 
 # find latest tini release tag from github
 curl --connect-timeout 5 --max-time 600 --retry 5 --retry-delay 0 --retry-max-time 60 -o /tmp/tini_release_tag -L https://github.com/krallin/tini/releases
 tini_release_tag=$(cat /tmp/tini_release_tag | grep -P -o -m 1 '(?<=/krallin/tini/releases/tag/)[^"]+')
 
 # download tini, used to do graceful exit when docker stop issued and correct reaping of zombie processes.
-curl --connect-timeout 5 --max-time 600 --retry 5 --retry-delay 0 --retry-max-time 60 -o /usr/bin/tini -L "https://github.com/krallin/tini/releases/download/${tini_release_tag}/tini-arm64" && chmod +x /usr/bin/tini
+curl --connect-timeout 5 --max-time 600 --retry 5 --retry-delay 0 --retry-max-time 60 -o /usr/bin/tini -L "https://github.com/krallin/tini/releases/download/${tini_release_tag}/tini-armhf" && chmod +x /usr/bin/tini
 
 # identify if base-devel package installed
 if pacman -Qg "base-devel" > /dev/null ; then
